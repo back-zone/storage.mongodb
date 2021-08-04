@@ -8,13 +8,14 @@ namespace Back.Zone.Storage.MongoDB.Configuration
     public sealed class MongoDBConfiguration
     {
         public readonly string DbName;
+
         public readonly List<MongoServerAddress> ServerAddresses;
 
         public MongoDBConfiguration(MongoDBConfigurationReader mongoDbConfigurationReader)
         {
             var (dbName, serverAddresses) = mongoDbConfigurationReader;
 
-            if (dbName != null && mongoDbConfigurationReader.ServerAddresses is { Count: > 0 })
+            if (dbName != null && serverAddresses is { Count: > 0 })
             {
                 DbName = dbName;
                 ServerAddresses = serverAddresses
