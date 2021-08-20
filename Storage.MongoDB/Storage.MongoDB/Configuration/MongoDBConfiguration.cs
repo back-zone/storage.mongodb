@@ -24,7 +24,7 @@ namespace Back.Zone.Storage.MongoDB.Configuration
             }
             else
             {
-                throw new ArgumentException("Check Mysql section on the config file!");
+                throw new ArgumentException("Check MongoDB section on the config file!");
             }
         }
     }
