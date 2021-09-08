@@ -4,12 +4,12 @@ using MongoDB.Driver;
 
 namespace Back.Zone.Storage.MongoDB.Service
 {
-    public sealed class MongoDBService : IMongoDBService
+    public sealed class MongoDbService : IMongoDbService
     {
         private readonly string _dbName;
         private readonly MongoClient _mongoClient;
 
-        public MongoDBService(MongoDBConfiguration mongoDbConfiguration)
+        public MongoDbService(MongoDbConfiguration mongoDbConfiguration)
         {
             _dbName = mongoDbConfiguration.DbName;
             _mongoClient = new MongoClient(new MongoClientSettings

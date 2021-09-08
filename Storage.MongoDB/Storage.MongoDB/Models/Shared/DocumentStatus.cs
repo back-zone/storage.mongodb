@@ -10,5 +10,6 @@ namespace Back.Zone.Storage.MongoDB.Models.Shared
     )
     {
         public static DocumentStatus ForNew() => new(true, false, null, DateTime.Now);
+        public static DocumentStatus ForNew(bool isActive) => new(isActive, false, null, DateTime.Now);
     }
 }

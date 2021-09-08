@@ -5,13 +5,13 @@ using MongoDB.Driver;
 
 namespace Back.Zone.Storage.MongoDB.Configuration
 {
-    public sealed class MongoDBConfiguration
+    public sealed class MongoDbConfiguration
     {
         public readonly string DbName;
 
         public readonly List<MongoServerAddress> ServerAddresses;
 
-        public MongoDBConfiguration(MongoDBConfigurationReader mongoDbConfigurationReader)
+        public MongoDbConfiguration(MongoDbConfigurationReader mongoDbConfigurationReader)
         {
             var (dbName, serverAddresses) = mongoDbConfigurationReader;
 
@@ -29,13 +29,13 @@ namespace Back.Zone.Storage.MongoDB.Configuration
         }
     }
 
-    public sealed record MongoDBConfigurationReader(
+    public sealed record MongoDbConfigurationReader(
         string? DbName,
         List<string>? ServerAddresses)
     {
         public const string SectionIndicator = "MongoDB";
 
-        public MongoDBConfigurationReader() : this(default, default)
+        public MongoDbConfigurationReader() : this(default, default)
         {
         }
     }
