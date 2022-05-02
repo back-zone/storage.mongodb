@@ -1,42 +1,31 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using MongoDB.Driver;
+using Microsoft.Extensions.Configuration;
 
-namespace Back.Zone.Storage.MongoDB.Configuration
+namespace Back.Zone.Storage.MongoDB.Configuration;
+
+public sealed class MongoDbConfiguration
 {
-    public sealed class MongoDbConfiguration
+    public readonly List<MongoDbConnectionConfiguration> ConnectionConfigurations;
+
+    public MongoDbConfiguration(MongoDbConfigurationReader configurationReader)
     {
-        public readonly string DbName;
+        ConnectionConfigurations = new List<MongoDbConnectionConfiguration>();
 
-        public readonly List<MongoServerAddress> ServerAddresses;
+        if (configurationReader.ConnectionConfigurationReaders == null)
+            throw new ArgumentException("Failed to access MongoDb configurations!");
 
-        public MongoDbConfiguration(MongoDbConfigurationReader mongoDbConfigurationReader)
+        foreach (var connectionConfigurationReader in configurationReader.ConnectionConfigurationReaders)
         {
-            var (dbName, serverAddresses) = mongoDbConfigurationReader;
-
-            if (dbName != null && serverAddresses is { Count: > 0 })
-            {
-                DbName = dbName;
-                ServerAddresses = serverAddresses
-                    .Select(m => new MongoServerAddress(m))
-                    .ToList();
-            }
-            else
-            {
-                throw new ArgumentException("Check MongoDB section on the config file!");
-            }
+            ConnectionConfigurations.Add(new MongoDbConnectionConfiguration(connectionConfigurationReader));
         }
     }
+}
 
-    public sealed record MongoDbConfigurationReader(
-        string? DbName,
-        List<string>? ServerAddresses)
-    {
-        public const string SectionIndicator = "MongoDB";
+public sealed class MongoDbConfigurationReader
+{
+    [property: ConfigurationKeyName("connections")]
+    public List<MongoDbConnectionConfigurationReader>? ConnectionConfigurationReaders { get; set; }
 
-        public MongoDbConfigurationReader() : this(default, default)
-        {
-        }
-    }
+    public const string ConfigurationSectionName = "mongodb";
 }

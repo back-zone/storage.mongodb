@@ -5,9 +5,9 @@
         <Nullable>enable</Nullable>
         <AssemblyName>Back.Zone.Storage.MongoDB</AssemblyName>
         <RootNamespace>Back.Zone.Storage.MongoDB</RootNamespace>
-        <PackageVersion>0.0.4</PackageVersion>
+        <PackageVersion>0.0.8</PackageVersion>
         <PackageProjectUrl>https://back.zone</PackageProjectUrl>
-        <PackageLicenseUrl>https://back.zone/oss/license.html</PackageLicenseUrl>
+        <PackageLicenseUrl></PackageLicenseUrl>
         <RepositoryUrl>https://github.com/back-zone/storage.mongodb</RepositoryUrl>
         <PackageTags>backzone mongodb, back.zone.mongodb, back.zone.storage.mongodb</PackageTags>
         <PackageId>Back.Zone.Storage.MongoDB</PackageId>
@@ -15,12 +15,15 @@
         <Company>Back.Zone</Company>
         <Title>Backzone MongoDB</Title>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <AssemblyVersion>0.0.1</AssemblyVersion>
+        <AssemblyVersion>0.0.8</AssemblyVersion>
+        <FileVersion>0.0.8</FileVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Back.Zone.Monads" Version="0.0.3" />
-      <PackageReference Include="MongoDB.Driver" Version="2.13.0" />
+      <PackageReference Include="Back.Zone.Monads" Version="0.0.9" />
+      <PackageReference Include="Back.Zone.Net.Http" Version="0.0.8.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+      <PackageReference Include="MongoDB.Driver" Version="2.15.0" />
     </ItemGroup>
 
 </Project>
