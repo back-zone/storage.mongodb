@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 
@@ -10,18 +8,18 @@ public sealed class MongoDbConnectionConfiguration
 {
     public readonly string DbName;
 
-    public readonly List<MongoServerAddress> ServerAddresses;
+    public readonly MongoUrl MongoUrl;
 
     public MongoDbConnectionConfiguration(
         MongoDbConnectionConfigurationReader configurationReader
     )
     {
-        var (dbName, serverAddresses) = configurationReader;
+        var (dbName, connectionString) = configurationReader;
 
-        if (dbName != null && serverAddresses is { Count: > 0 })
+        if (!string.IsNullOrWhiteSpace(dbName) && !string.IsNullOrWhiteSpace(connectionString))
         {
             DbName = dbName;
-            ServerAddresses = serverAddresses.Select(m => new MongoServerAddress(m)).ToList();
+            MongoUrl = new MongoUrl(connectionString);
         }
         else
         {
@@ -33,8 +31,8 @@ public sealed class MongoDbConnectionConfiguration
 public sealed record MongoDbConnectionConfigurationReader(
     [property: ConfigurationKeyName("db_name")]
     string? DbName,
-    [property: ConfigurationKeyName("server_addresses")]
-    List<string>? ServerAddresses)
+    [property: ConfigurationKeyName("connection_string")]
+    string? ConnectionString)
 {
     public MongoDbConnectionConfigurationReader() : this(default, default)
     {
