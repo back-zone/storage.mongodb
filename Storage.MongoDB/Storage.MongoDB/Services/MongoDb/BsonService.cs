@@ -1,48 +1,34 @@
 using System;
-using Back.Zone.Monads.EitherMonad;
-using Back.Zone.Net.Http.TransferObjects.HttpResponseObjects;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
+using Back.Zone.Monads.IOMonad;
 using MongoDB.Bson;
 
 namespace Back.Zone.Storage.MongoDB.Services.MongoDb;
 
 public static class BsonService
 {
-    public static Either<ApiResponse, ObjectId> ParseId(string id)
+    public static IO<ObjectId> ParseObjectId(string id) =>
+        ObjectId.TryParse(id, out var objectId)
+            ? IO.Pure(objectId)
+            : Failure.From<ObjectId>(new Exception("id failed to parse"));
+
+    public static IO<ImmutableList<ObjectId>> ParseObjectIds(IEnumerable<string> ids)
     {
-        var parseSucceed = ObjectId.TryParse(id, out var parsedId);
+        ImmutableList<ObjectId> ParseList()
+        {
+            var parsedList = ids.Select(ParseObjectId).ToImmutableList();
 
-        return parseSucceed
-            ? parsedId
-            : ApiResponse.FailedWithMessage("id failed to parse");
-    }
+            var failures = parsedList.Where(m => m.IsSuccess() == false).Select(m => m.Error()).ToImmutableList();
 
-    public static Either<ApiResponse<TA>, ObjectId> ParseId<TA>(string id) where TA : class
-    {
-        var parseSucceed = ObjectId.TryParse(id, out var parseId);
+            return failures switch
+            {
+                { Count: > 0 } => throw failures.First(),
+                _ => parsedList.Select(m => m.Get()).ToImmutableList()
+            };
+        }
 
-        return parseSucceed
-            ? parseId
-            : ApiResponse<TA>.FailedWithMessage("id failed to parse");
-    }
-
-    public static Either<ApiResponse, Tuple<ObjectId, ObjectId>> ParseIds(string firstId, string secondId)
-    {
-        var firstParseSucceed = ObjectId.TryParse(firstId, out var parsedFirstId);
-        var secondParseSucceed = ObjectId.TryParse(secondId, out var parsedSecondId);
-
-        return firstParseSucceed && secondParseSucceed
-            ? Tuple.Create(parsedFirstId, parsedSecondId)
-            : ApiResponse.FailedWithMessage("ids failed to parse");
-    }
-
-    public static Either<ApiResponse<TA>, Tuple<ObjectId, ObjectId>> ParseIds<TA>(string firstId, string secondId)
-        where TA : class
-    {
-        var firstParseSucceed = ObjectId.TryParse(firstId, out var parsedFirstId);
-        var secondParseSucceed = ObjectId.TryParse(secondId, out var parsedSecondId);
-
-        return firstParseSucceed && secondParseSucceed
-            ? Tuple.Create(parsedFirstId, parsedSecondId)
-            : ApiResponse<TA>.FailedWithMessage("ids failed to parse");
+        return IO.From(ParseList);
     }
 }

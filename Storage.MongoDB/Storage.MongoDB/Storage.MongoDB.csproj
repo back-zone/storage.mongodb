@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <AssemblyName>Back.Zone.Storage.MongoDB</AssemblyName>
         <RootNamespace>Back.Zone.Storage.MongoDB</RootNamespace>
-        <PackageVersion>0.0.9.0</PackageVersion>
+        <PackageVersion>0.1.0.0</PackageVersion>
         <PackageProjectUrl>https://back.zone</PackageProjectUrl>
         <RepositoryUrl>https://github.com/back-zone/storage.mongodb</RepositoryUrl>
         <PackageTags>backzone mongodb, back.zone.mongodb, back.zone.storage.mongodb</PackageTags>
@@ -14,14 +14,14 @@
         <Company>Back.Zone</Company>
         <Title>Backzone MongoDB</Title>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <AssemblyVersion>0.0.9.0</AssemblyVersion>
-        <FileVersion>0.0.9.0</FileVersion>
+        <AssemblyVersion>0.1.0.0</AssemblyVersion>
+        <FileVersion>0.1.0.0</FileVersion>
+        <LangVersion>11</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Back.Zone.Monads" Version="0.0.9.7" />
-      <PackageReference Include="Back.Zone.Net.Http" Version="0.0.8.2" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+      <PackageReference Include="Back.Zone.Monads" Version="0.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
       <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
     </ItemGroup>
 

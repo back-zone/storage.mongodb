@@ -8,5 +8,5 @@ public static class ResultExtensions
         updateResult.IsAcknowledged && updateResult.MatchedCount > 0 && updateResult.ModifiedCount >= 0;
 
     public static bool Succeed(this DeleteResult deleteResult) =>
-        deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
+        deleteResult.IsAcknowledged && deleteResult.DeletedCount >= 0;
 }
